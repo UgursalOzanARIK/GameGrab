@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="darkBlue">#003366</color>
+    <color name="text">#4D4D4D</color>
+    <color name="activeStatusGreen">#4CAF50</color>
+    <color name="deactiveRed">#F44336</color>
+    <color name="lightBlue">#33B5E5</color>
+    <color name="lightGrey">#F2F2F2</color>
+    <color name="titleBlack">#000000</color>
+    <color name="costEndDate">#FFA500</color>
+    <color name="deepPurple">#2C003E</color>
+    <color name="pink">#E91E63</color>
+    <color name="turquoise">#00CED1</color>
+    <color name="green">#004953</color>
+    <color name="grey">#333333</color>
+    <color name="slateGray">#708090</color>
+    <color name="slateBlue">#4682B4</color>
+    <color name="darkTeal">#005F6B</color>
+    <color name="richBurgundy">#800020</color>
+    <color name="darkGreen">#4A5D23</color>
+    <color name="darkGray">#444444</color>
+    <color name="gunMetalGray">#505050</color>
+    <color name="charcoalGray">#333333</color>
+    <color name="ashGray">#8C8C8C</color>
+    <color name="graphiteGray">#595959</color>
+    <color name="jetBlack">#1C1C1C</color>
+    <color name="ebony">#555555</color>
+    <color name="onyx">#363636</color>
+
+    <color name="textColor">#FF838080</color>
+
+    <color name="mainBgColor">#FF1C1C1C</color>
+
+
+</resources>
