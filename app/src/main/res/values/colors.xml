@@ -32,7 +32,9 @@
 
     <color name="textColor">#FF838080</color>
 
-    <color name="mainBgColor">#FF1C1C1C</color>
+    <color name="mainBgColor">#080B10</color>
+
+    <color name="mainBgColorVariant">#0E1219</color>
 
 
 </resources>

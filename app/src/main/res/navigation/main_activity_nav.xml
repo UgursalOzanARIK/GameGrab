@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_activity_nav"
+    app:startDestination="@id/fragmentAll">
+    <fragment
+        android:id="@+id/fragmentAll"
+        android:name="com.ozanarik.ui.fragments.main_fragments.FragmentAll"
+        android:label="fragment_all"
+        tools:layout="@layout/fragment_all" >
+        <action
+            android:id="@+id/action_fragmentAll_to_gameDetailFragment"
+            app:destination="@id/gameDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/wishlistFragment"
+        android:name="com.ozanarik.ui.fragments.main_fragments.WishlistFragment"
+        android:label="fragment_wishlist"
+        tools:layout="@layout/fragment_wishlist" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.ozanarik.ui.fragments.main_fragments.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/gameDetailFragment"
+        android:name="com.ozanarik.ui.fragments.game_screens.game_detail_fragment.GameDetailFragment"
+        android:label="fragment_game_detail"
+        tools:layout="@layout/fragment_game_detail" >
+        <argument
+            android:name="gameData"
+            app:argType="com.ozanarik.business.model.GameGiveAwayResponseItem" />
+    </fragment>
+    <fragment
+        android:id="@+id/DLCsFragment"
+        android:name="com.ozanarik.ui.fragments.game_screens.DLCsFragment"
+        android:label="fragment_d_l_cs"
+        tools:layout="@layout/fragment_d_l_cs" >
+        <action
+            android:id="@+id/action_DLCsFragment_to_gameDetailFragment"
+            app:destination="@id/gameDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/gamesFragment"
+        android:name="com.ozanarik.ui.fragments.game_screens.GamesFragment"
+        android:label="fragment_games"
+        tools:layout="@layout/fragment_games" >
+        <action
+            android:id="@+id/action_gamesFragment_to_gameDetailFragment"
+            app:destination="@id/gameDetailFragment" />
+    </fragment>
+</navigation>

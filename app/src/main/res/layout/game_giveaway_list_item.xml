@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/game_giveaway_item_list_custom_bg"
-    android:paddingBottom="16dp"
     app:layoutDescription="@xml/game_giveaway_list_item_scene2">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -15,30 +14,34 @@
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:paddingBottom="32dp">
+
+
+
 
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="16dp"
             android:fontFamily="@font/concert_one"
             android:text="Status"
             android:textColor="@color/lightGrey"
             android:textSize="18sp"
-            app:layout_constraintEnd_toStartOf="@+id/imageView"
+            app:layout_constraintEnd_toStartOf="@+id/imageViewStatus"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="10dp"
-            android:layout_height="10dp"
-            android:layout_marginTop="24dp"
+            android:id="@+id/imageViewStatus"
+            android:layout_width="9dp"
+            android:layout_height="8dp"
             android:layout_marginEnd="16dp"
             android:src="@drawable/baseline_circle_24"
+            app:layout_constraintBottom_toBottomOf="@+id/textView"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/textView"
             app:tint="@color/activeStatusGreen" />
 
         <TextView
@@ -47,41 +50,47 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
             android:text="The Wither 3: Wild Hunt"
             android:textAlignment="viewStart"
             android:textColor="@color/lightGrey"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/cardView"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
+            app:layout_constraintTop_toBottomOf="@+id/tvGameType" />
 
         <TextView
             android:id="@+id/tvGamePrice"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
             android:fontFamily="@font/concert_one"
             android:text="14.99 $"
             android:textColor="@color/textColor"
-            android:textSize="14sp"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/cardView"
             app:layout_constraintTop_toBottomOf="@+id/tvGameName" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="48dp"
+            android:layout_marginTop="16dp"
+            android:elevation="25dp"
+            android:outlineSpotShadowColor="@color/deepPurple"
             app:cardCornerRadius="10dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/tvGameType">
 
             <ImageView
                 android:id="@+id/imageViewGamePhoto"
-                android:layout_width="75dp"
-                android:layout_height="75dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_marginStart="0dp"
                 android:layout_marginLeft="32dp"
                 android:scaleType="fitXY"
@@ -92,31 +101,86 @@
                 tools:srcCompat="@tools:sample/avatars" />
         </androidx.cardview.widget.CardView>
 
-        <ImageView
-            android:id="@+id/imgExpand"
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chipGroup"
             android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="4dp"
-            android:src="@drawable/baseline_expand_more_24"
+            android:layout_height="50dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="16dp"
+            android:backgroundTint="@color/darkBlue"
+            android:elevation="20dp"
+            app:chipSpacing="4dp"
+            app:layout_constraintBottom_toBottomOf="@+id/cardView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/cardView"
+            app:layout_constraintTop_toBottomOf="@+id/tvGamePrice"
+            app:singleLine="false"
+            app:singleSelection="false">
+
+        </com.google.android.material.chip.ChipGroup>
+
+        <TextView
+            android:id="@+id/tvRedeemBefore"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:fontFamily="@font/concert_one"
+            android:text="TextView"
+            android:textColor="@color/textColor"
+            android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardView" />
+            app:layout_constraintTop_toBottomOf="@+id/chipGroup" />
+
+        <TextView
+            android:id="@+id/tvFreeForALimitedTime"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="16dp"
+            android:fontFamily="@font/concert_one"
+            android:text="Free for a limited time"
+            android:textColor="@color/deactiveRed"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvRedeemBefore" />
+
+        <TextView
+            android:id="@+id/tvGameType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/concert_one"
+            android:text="Type :"
+            android:textColor="@color/slateGray"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
         android:id="@+id/buttonGetItNowForFree"
         android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:layout_marginStart="16dp"
+        android:layout_height="75dp"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="32dp"
         android:backgroundTint="@color/darkBlue"
+        android:paddingBottom="32dp"
+        android:paddingTop="16dp"
         android:text="Get it now for free"
         android:textColor="@color/lightGrey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvGameDescription" />
+        app:layout_constraintTop_toBottomOf="@+id/imgExpand" />
 
     <TextView
         android:id="@+id/tvGameDescription"
@@ -128,12 +192,23 @@
         android:ellipsize="end"
         android:fontFamily="@font/concert_one"
         android:maxLines="3"
+        android:paddingTop="16dp"
         android:text="TextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextView"
-        android:textAlignment="textStart"
+        android:textAlignment="center"
         android:textColor="@color/lightGrey"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/imgExpand" />
+
+    <ImageView
+        android:id="@+id/imgExpand"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:src="@drawable/baseline_expand_more_24"
+        app:layout_constraintEnd_toEndOf="@+id/constraintLayout"
+        app:layout_constraintStart_toStartOf="@+id/constraintLayout"
+        app:layout_constraintTop_toBottomOf="@id/constraintLayout"
+        android:paddingTop="16dp"/>
 
 </androidx.constraintlayout.motion.widget.MotionLayout>
