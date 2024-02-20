@@ -1,7 +1,9 @@
 package com.ozanarik.business.remote
 
 import com.ozanarik.business.model.GameGiveAwayResponse
+import com.ozanarik.business.model.GameGiveAwayResponseItem
 import okhttp3.internal.platform.Platform
+import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -20,7 +22,7 @@ interface GameApi {
     @GET("api/giveaway")
     suspend fun getGameDetails(
         @Query("id")id:Int
-    ):Response<GameGiveAwayResponse>
+    ):GameGiveAwayResponseItem
 
 
 }

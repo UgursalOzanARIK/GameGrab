@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.gson.Gson
 import com.ozanarik.business.model.GameGiveAwayResponseItem
 import com.ozanarik.gamegrab.R
 import com.ozanarik.gamegrab.databinding.FragmentAllGamesListBinding
@@ -20,6 +21,7 @@ import com.ozanarik.utilities.Resource
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import java.io.InputStreamReader
 
 @AndroidEntryPoint
 class AllGamesListFragment : Fragment() {

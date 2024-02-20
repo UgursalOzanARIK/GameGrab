@@ -1,8 +1,10 @@
 package com.ozanarik.ui.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ozanarik.business.model.GameGiveAwayResponse
+import com.ozanarik.business.model.GameGiveAwayResponseItem
 import com.ozanarik.business.repositories.GameRepository
 import com.ozanarik.utilities.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -12,6 +14,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.internal.platform.Platform
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.io.IOException
 import javax.inject.Inject
 
@@ -22,8 +27,8 @@ class GameViewModel @Inject constructor(private val gameRepository: GameReposito
     val allGameGiveAwayList:StateFlow<Resource<GameGiveAwayResponse>> = _allGameGiveAwayList
 
 
-    private val _gameDetail:MutableStateFlow<Resource<GameGiveAwayResponse>> = MutableStateFlow(Resource.Loading())
-    val gameDetail:StateFlow<Resource<GameGiveAwayResponse>> = _gameDetail
+    private val _gameDetail:MutableStateFlow<Resource<GameGiveAwayResponseItem>> = MutableStateFlow(Resource.Loading())
+    val gameDetail:StateFlow<Resource<GameGiveAwayResponseItem>> = _gameDetail
 
 
     fun getGameDetail(gameId:Int)=viewModelScope.launch {
@@ -35,9 +40,8 @@ class GameViewModel @Inject constructor(private val gameRepository: GameReposito
                 gameRepository.getGameDetail(gameId)
             }
 
-            if (gameDetailResponse.isSuccessful){
-                _gameDetail.value = Resource.Success(gameDetailResponse.body()!!)
-            }
+            _gameDetail.value = Resource.Success(gameDetailResponse)
+
 
         }catch (e:Exception){
             _gameDetail.value = Resource.Error(e.localizedMessage?:e.message!!)

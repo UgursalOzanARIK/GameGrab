@@ -1,6 +1,7 @@
 package com.ozanarik.ui.fragments.game_screens.game_detail_fragment
 
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -11,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
@@ -64,30 +66,31 @@ class GameDetailFragment : Fragment() {
                 when(gameDetailResponse){
                     is Resource.Success->{
 
-                        val gameDetails = gameDetailResponse.data ?: emptyList()
+
 
                         binding.apply {
 
-                            if (gameDetails!=null){
 
-                                val gameDetail = gameDetails.get(0)
+                            val gameDetail = gameDetailResponse.data
 
-                                tvGameGiveawayUrl.text = gameDetail.openGiveawayUrl
-                                tvGameTypeDetail.text = "Type : ${gameDetail.type}"
-                                Picasso.get().load(gameDetail.image).placeholder(R.drawable.placeholder).error(R.drawable.error).into(imgGamePhoto)
-                                tvRedeemDetail.text = "Redeem before ${gameDetail.endDate}"
-                                tvGameDescriptionDetail.text = gameDetail.description
-                                tvPublishedDateDetail.text = gameDetail.publishedDate
-                                cvGameUrl.setOnClickListener {
+                            tvGameGiveawayUrl.text = gameDetail!!.openGiveawayUrl
+                            tvGameTypeDetail.text = "Type : ${gameDetail.type}"
+                            Picasso.get().load(gameDetail.image).placeholder(R.drawable.placeholder).error(R.drawable.error).into(imgGamePhoto)
+                            tvRedeemDetail.text = "Redeem before ${gameDetail.endDate}"
+                            tvGameDescriptionDetail.text = gameDetail.description
+                            tvPublishedDateDetail.text = gameDetail.publishedDate
+                            tvGameNameDetail.text = gameDetail.title
+                            tvGameNameDetail.bringToFront()
+                            tvGameNameDetail.setBackgroundColor(Color.BLACK)
 
-                                    shareLink(gameDetail.openGiveawayUrl)
-                                }
+                            shareLink(gameDetail.openGiveawayUrl)
 
-                                handleChipGroup(gameDetail.platforms,chipGrpPlatforms)
+                            handleChipGroup(gameDetail.platforms,chipGrpPlatforms)
 
-                                handleButtonGetItIntent(gameDetail.openGiveawayUrl,buttonGetIt)
+                            handleButtonGetItIntent(gameDetail.openGiveawayUrl,buttonGetIt)
 
-                            }
+                            navigateBack()
+
 
                         }
 
@@ -106,13 +109,23 @@ class GameDetailFragment : Fragment() {
 
 
 
+    private fun navigateBack(){
+        binding.imgNavigateBack.setOnClickListener {
+            findNavController().popBackStack()
+        }
+    }
 
     private fun shareLink(url:String){
 
-        val intent = Intent(Intent.ACTION_SEND)
-        intent.type = "text/plain"
-        intent.putExtra(Intent.EXTRA_TEXT,url)
-        startActivity(Intent.createChooser(intent,"Share link via"))
+        binding.cvGameUrl.setOnClickListener {
+
+            val intent = Intent(Intent.ACTION_SEND)
+            intent.type = "text/plain"
+            intent.putExtra(Intent.EXTRA_TEXT,url)
+            startActivity(Intent.createChooser(intent,"Share link via"))
+
+        }
+
 
     }
 
