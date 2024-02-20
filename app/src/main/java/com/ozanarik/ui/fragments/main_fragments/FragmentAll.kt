@@ -6,16 +6,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.tabs.TabLayoutMediator
-import com.ozanarik.gamegrab.R
 import com.ozanarik.gamegrab.databinding.FragmentAllBinding
 import com.ozanarik.ui.adapters.ViewPagerAdapter
 import com.ozanarik.utilities.Constants.Companion.NAME_FRAGMENT_LIST
-import com.ozanarik.utilities.Constants.Companion.fragmentList
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 
 class FragmentAll : Fragment() {
+
+
 
     private lateinit var binding: FragmentAllBinding
     private lateinit var viewPagerAdapter: ViewPagerAdapter

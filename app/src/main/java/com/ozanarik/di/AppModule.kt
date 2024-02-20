@@ -1,8 +1,13 @@
 package com.ozanarik.di
 
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.ozanarik.business.remote.GameApi
+import com.ozanarik.business.repositories.FirebaseRepository
 import com.ozanarik.business.repositories.GameRepository
 import com.ozanarik.utilities.Constants.Companion.BASE_URL
 import dagger.Module
@@ -40,6 +45,19 @@ class AppModule {
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
+    }
+
+
+    @Provides
+    @Singleton
+    fun provideFirebaseRepository(firebaseAuth: FirebaseAuth):FirebaseRepository{
+        return FirebaseRepository(firebaseAuth)
+    }
+
+    @Provides
+    @Singleton
+    fun provideFirebaseAuth():FirebaseAuth{
+        return FirebaseAuth.getInstance()
     }
 
     @Provides

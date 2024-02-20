@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.ozanarik.gamegrab" />
+                  <option name="mobileSdkAppId" value="1:305670689873:android:d2f1404c7a7b42071bd470" />
+                  <option name="projectId" value="gamegrab-b0abc" />
+                  <option name="projectNumber" value="305670689873" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

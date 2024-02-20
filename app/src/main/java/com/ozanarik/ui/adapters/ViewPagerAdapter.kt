@@ -8,7 +8,6 @@ import com.ozanarik.ui.fragments.game_screens.AllGamesListFragment
 import com.ozanarik.ui.fragments.game_screens.DLCsFragment
 import com.ozanarik.ui.fragments.game_screens.GamesFragment
 import com.ozanarik.utilities.Constants.Companion.NAME_FRAGMENT_LIST
-import com.ozanarik.utilities.Constants.Companion.fragmentList
 
 class ViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle):FragmentStateAdapter(fragmentManager,lifecycle) {
 

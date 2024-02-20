@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "305670689873",
+    "project_id": "gamegrab-b0abc",
+    "storage_bucket": "gamegrab-b0abc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:305670689873:android:d2f1404c7a7b42071bd470",
+        "android_client_info": {
+          "package_name": "com.ozanarik.gamegrab"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB8ukZBp4QRBY1u6z2sGy5lHs8OLSmu0KM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

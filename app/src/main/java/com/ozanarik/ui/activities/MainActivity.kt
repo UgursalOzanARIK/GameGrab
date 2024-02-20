@@ -2,6 +2,7 @@ package com.ozanarik.ui.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
@@ -16,6 +17,9 @@ class MainActivity : AppCompatActivity() {
     private var activeFragment: Fragment = FragmentAll()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
+        Log.e("asd",this.packageName)
 
 
 

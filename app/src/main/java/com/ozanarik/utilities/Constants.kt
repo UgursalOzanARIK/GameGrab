@@ -15,11 +15,5 @@ class Constants {
             "Games",
             "DLCs",
         )
-
-        val fragmentList = listOf(AllGamesListFragment(), GamesFragment(), DLCsFragment())
-
-
-
     }
-
 }
