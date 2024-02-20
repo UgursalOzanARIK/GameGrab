@@ -5,6 +5,15 @@
     android:layout_height="match_parent"
     tools:context="com.ozanarik.ui.fragments.game_screens.AllGamesListFragment">
 
+
+    <include
+        android:id="@+id/noDataLayout"
+        layout="@layout/no_data_layout"
+        android:visibility="gone"
+
+        />
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvGames"
         android:layout_width="0dp"
@@ -13,6 +22,48 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.5" />
+        app:layout_constraintTop_toBottomOf="@+id/etSearch" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/loadingLottieAnimation"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="128dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/rvGames"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/gameloadinganim" />
+
+    <EditText
+        android:id="@+id/etSearch"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:autofillHints="name"
+        android:background="@drawable/edittext_bg_custom"
+        android:drawableEnd="@drawable/baseline_search_24"
+        android:ems="10"
+        android:hint="@string/search_for_games"
+        android:inputType="text"
+        android:padding="16dp"
+        android:textColorHint="@color/black"
+        app:layout_constraintEnd_toStartOf="@+id/imgFilter"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <ImageView
+        android:id="@+id/imgFilter"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/filter"
+        app:layout_constraintBottom_toBottomOf="@+id/etSearch"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/etSearch"
+        app:tint="@color/white" />
 </androidx.constraintlayout.widget.ConstraintLayout>

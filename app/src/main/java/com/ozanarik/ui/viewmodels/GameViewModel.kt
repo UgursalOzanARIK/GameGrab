@@ -30,6 +30,36 @@ class GameViewModel @Inject constructor(private val gameRepository: GameReposito
     private val _gameDetail:MutableStateFlow<Resource<GameGiveAwayResponseItem>> = MutableStateFlow(Resource.Loading())
     val gameDetail:StateFlow<Resource<GameGiveAwayResponseItem>> = _gameDetail
 
+    private val _multiPlatformSearch:MutableStateFlow<Resource<List<GameGiveAwayResponseItem>>> = MutableStateFlow(Resource.Loading())
+    val multiPlatformSearch:StateFlow<Resource<List<GameGiveAwayResponseItem>>> = _multiPlatformSearch
+
+
+    fun getMultiPlatformSearch(platform:List<String>)=viewModelScope.launch {
+        _multiPlatformSearch.value = Resource.Loading()
+
+        try {
+
+            val platformQuery = platform.joinToString(".")
+            val multiSearch = withContext(Dispatchers.IO){
+                gameRepository.getMultiplePlatforms(platformQuery)
+            }
+
+            if (multiSearch.isSuccessful){
+                val gamesList = multiSearch.body()?: emptyList()
+
+                _multiPlatformSearch.value = Resource.Success(gamesList)
+            }
+
+
+        }catch (e:Exception){
+            _multiPlatformSearch.value = Resource.Error(e.message?:e.localizedMessage!!)
+
+        }catch (e:IOException){
+            _multiPlatformSearch.value = Resource.Error(e.message?:e.localizedMessage!!)
+        }
+
+    }
+
 
     fun getGameDetail(gameId:Int)=viewModelScope.launch {
 

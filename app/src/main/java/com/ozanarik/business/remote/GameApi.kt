@@ -24,5 +24,10 @@ interface GameApi {
         @Query("id")id:Int
     ):GameGiveAwayResponseItem
 
+    @GET("api/filter?")
+    suspend fun getMultiPlatforms(
+        @Query("platform")platform:String?=null
+    ):Response<GameGiveAwayResponse>
+
 
 }

@@ -12,4 +12,6 @@ class GameRepository @Inject constructor(private val gameApi: GameApi) {
 
     suspend fun getGameDetail(gameId:Int):GameGiveAwayResponseItem = gameApi.getGameDetails(gameId)
 
+    suspend fun getMultiplePlatforms(platform:String)=gameApi.getMultiPlatforms(platform)
+
 }

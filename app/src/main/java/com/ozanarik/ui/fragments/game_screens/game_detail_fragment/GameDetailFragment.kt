@@ -76,7 +76,7 @@ class GameDetailFragment : Fragment() {
                             tvGameGiveawayUrl.text = gameDetail!!.openGiveawayUrl
                             tvGameTypeDetail.text = "Type : ${gameDetail.type}"
                             Picasso.get().load(gameDetail.image).placeholder(R.drawable.placeholder).error(R.drawable.error).into(imgGamePhoto)
-                            tvRedeemDetail.text = "Redeem before ${gameDetail.endDate}"
+                            tvRedeemDetail.text = "Redeem before: ${gameDetail.endDate}"
                             tvGameDescriptionDetail.text = gameDetail.description
                             tvPublishedDateDetail.text = gameDetail.publishedDate
                             tvGameNameDetail.text = gameDetail.title

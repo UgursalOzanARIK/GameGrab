@@ -1,6 +1,8 @@
 package com.ozanarik.ui.fragments.game_screens
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -14,6 +16,7 @@ import com.ozanarik.business.model.GameGiveAwayResponseItem
 import com.ozanarik.gamegrab.R
 import com.ozanarik.gamegrab.databinding.FragmentGamesBinding
 import com.ozanarik.ui.adapters.GameAdapter
+import com.ozanarik.ui.fragments.GameFilterDialogFragment
 import com.ozanarik.ui.fragments.main_fragments.FragmentAllDirections
 import com.ozanarik.ui.viewmodels.GameViewModel
 import com.ozanarik.utilities.Resource
@@ -22,7 +25,8 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class GamesFragment : Fragment() {
+class GamesFragment : Fragment(),GameFilterDialogFragment.OnGameFilterListener {
+
     private lateinit var gameAdapter: GameAdapter
     private lateinit var binding: FragmentGamesBinding
     private lateinit var gameViewModel: GameViewModel
@@ -40,6 +44,9 @@ class GamesFragment : Fragment() {
         handleRv()
 
         getGames()
+        handleSearchFunctionality()
+
+        handleFilterDialog()
 
 
         return binding.root
@@ -47,6 +54,38 @@ class GamesFragment : Fragment() {
 
 
 
+    private fun handleFilterDialog(){
+
+        binding.imgFilterGames.setOnClickListener {
+
+            val gameFilterDialogFragment = GameFilterDialogFragment()
+            gameFilterDialogFragment.setOnGameFilterListener(this)
+
+
+            gameFilterDialogFragment.show(parentFragmentManager,gameFilterDialogFragment.tag)
+        }
+
+
+    }
+
+    override fun onGameFiltered(selectedPlatformList: List<String>) {
+
+        gameViewModel.getMultiPlatformSearch(selectedPlatformList)
+        viewLifecycleOwner.lifecycleScope.launch {
+
+            gameViewModel.multiPlatformSearch.collect{multiPlatform->
+                when(multiPlatform){
+                    is Resource.Success->{gameAdapter.asyncDifferList.submitList(multiPlatform.data)}
+                    is Resource.Error->{
+                        Log.e("asd",multiPlatform.message!!)
+                    }
+                    is Resource.Loading->{
+
+                    }
+                }
+            }
+        }
+    }
 
 
     private fun getGames(){
@@ -61,9 +100,6 @@ class GamesFragment : Fragment() {
 
                         val filteredGameList = allGamesList?.filter { it.type == "Game" }
 
-                        allGamesList!!.forEach {
-                            Log.e("TYPEEEEEEE",it.type)
-                        }
 
                         gameAdapter.asyncDifferList.submitList(filteredGameList)
 
@@ -75,12 +111,61 @@ class GamesFragment : Fragment() {
 
                     }
                 }
+            }
+        }
+    }
+
+    private fun getAllGames(searchQuery:String){
+        gameViewModel.getGameGiveaways()
+        viewLifecycleOwner.lifecycleScope.launch {
+            gameViewModel.allGameGiveAwayList.collect{allGamesList->
+                when(allGamesList){
+                    is Resource.Success->{
+
+                        binding.noDataLayout.root.visibility = View.GONE
+                        val allGames = allGamesList.data
+                        val filteredGamesList = if(searchQuery.isEmpty()){
+                            allGames
+                        }else{
+                            allGames!!.filter { it.title.lowercase().contains(searchQuery)   }
+
+                        }
+                        gameAdapter.asyncDifferList.submitList(filteredGamesList)
+
+
+                    }
+                    is Resource.Error->{
+                        binding.noDataLayout.root.visibility = View.VISIBLE
+                    }
+                    is Resource.Loading->{
+                        binding.noDataLayout.root.visibility = View.VISIBLE
+
+                    }
+                }
+            }
+        }
+    }
+
+
+    private fun handleSearchFunctionality(){
+        binding.etSearchGames.addTextChangedListener(object : TextWatcher {
+
+            override fun beforeTextChanged(searchText: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
             }
 
-        }
+            override fun onTextChanged(searchText: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun afterTextChanged(searchQuery: Editable?) {
+                val searchText = searchQuery.toString().trim().lowercase()
+
+                getAllGames(searchText)
 
 
+            }
+        })
     }
 
     private fun handleRv(){

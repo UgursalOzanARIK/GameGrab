@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/mainBgColorVariant"
+    android:paddingBottom="16dp"
     tools:context="com.ozanarik.ui.fragments.game_screens.game_detail_fragment.GameDetailFragment">
 
 
@@ -79,6 +80,7 @@
             android:drawableEnd="@drawable/basket"
             android:paddingRight="16dp"
             android:text="Get It Now"
+            android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cvGameUrl" />
 

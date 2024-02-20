@@ -32,20 +32,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="@color/mainBgColor"
-                app:layout_collapseMode="parallax"/>
-
+                app:layout_collapseMode="parallax"
+                />
 
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tabLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@color/mainBgColor"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/appbarLayout"
-                android:background="@color/mainBgColor"/>
-
-
+                app:tabIndicatorAnimationDuration="250"
+                app:tabIndicatorColor="@color/white"
+                app:tabIndicatorGravity="bottom"
+                app:tabSelectedTextColor="@color/lightBlue"
+                app:tabTextColor="@color/white" />
 
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
@@ -80,27 +83,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editTextText" />
-
-            <EditText
-                android:id="@+id/editTextText"
-                android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:background="@drawable/edittext_bg_custom"
-                android:drawableEnd="@drawable/baseline_search_24"
-                android:ems="10"
-                android:hint="Search for games..."
-                android:inputType="text"
-                android:padding="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                />
-
-
-
+                app:layout_constraintTop_toTopOf="parent" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

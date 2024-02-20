@@ -1,6 +1,8 @@
 package com.ozanarik.ui.fragments.game_screens
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -13,7 +15,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.ozanarik.business.model.GameGiveAwayResponseItem
 import com.ozanarik.gamegrab.R
 import com.ozanarik.gamegrab.databinding.FragmentDLCsBinding
+import com.ozanarik.gamegrab.databinding.FragmentGamesBinding
 import com.ozanarik.ui.adapters.GameAdapter
+import com.ozanarik.ui.fragments.GameFilterDialogFragment
 import com.ozanarik.ui.fragments.main_fragments.FragmentAllDirections
 import com.ozanarik.ui.viewmodels.GameViewModel
 import com.ozanarik.utilities.Resource
@@ -22,12 +26,11 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class DLCsFragment : Fragment() {
+class DLCsFragment : Fragment(),GameFilterDialogFragment.OnGameFilterListener {
 
-    private lateinit var binding: FragmentDLCsBinding
     private lateinit var gameAdapter: GameAdapter
+    private lateinit var binding: FragmentDLCsBinding
     private lateinit var gameViewModel: GameViewModel
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -35,14 +38,16 @@ class DLCsFragment : Fragment() {
         // Inflate the layout for this fragment
 
 
-
         binding = FragmentDLCsBinding.inflate(inflater,container,false)
         gameViewModel = ViewModelProvider(this)[GameViewModel::class.java]
 
+
         handleRv()
-        getDlcs()
 
+        getGames()
+        handleSearchFunctionality()
 
+        handleFilterDialog()
 
 
         return binding.root
@@ -50,32 +55,121 @@ class DLCsFragment : Fragment() {
 
 
 
-    private fun getDlcs(){
+    private fun handleFilterDialog(){
 
-        gameViewModel.getGameGiveaways()
-        viewLifecycleOwner.lifecycleScope.launch {
-            gameViewModel.allGameGiveAwayList.collect{allGames->
+        binding.imgFilterDlc.setOnClickListener {
 
-                when(allGames){
-                    is Resource.Success->{
-                        val allGamesList = allGames.data
+            val gameFilterDialogFragment = GameFilterDialogFragment()
+            gameFilterDialogFragment.setOnGameFilterListener(this)
 
-                        val filteredDlcList = allGamesList?.filter { it.type == "DLC" }
 
-                        gameAdapter.asyncDifferList.submitList(filteredDlcList)
-
-                    }
-                    is Resource.Error->{}
-                    is Resource.Loading->{}
-                }
-
-            }
+            gameFilterDialogFragment.show(parentFragmentManager,gameFilterDialogFragment.tag)
         }
 
 
     }
-    private fun handleRv(){
 
+    override fun onGameFiltered(selectedPlatformList: List<String>) {
+
+        gameViewModel.getMultiPlatformSearch(selectedPlatformList)
+        viewLifecycleOwner.lifecycleScope.launch {
+
+            gameViewModel.multiPlatformSearch.collect{multiPlatform->
+                when(multiPlatform){
+                    is Resource.Success->{gameAdapter.asyncDifferList.submitList(multiPlatform.data)}
+                    is Resource.Error->{
+                        Log.e("asd",multiPlatform.message!!)
+                    }
+                    is Resource.Loading->{
+
+                    }
+                }
+            }
+        }
+    }
+
+
+    private fun getGames(){
+
+        gameViewModel.getGameGiveaways()
+        viewLifecycleOwner.lifecycleScope.launch {
+
+            gameViewModel.allGameGiveAwayList.collect{allGames->
+                when(allGames){
+                    is Resource.Success->{
+                        val allGamesList = allGames.data
+
+                        val filteredGameList = allGamesList?.filter { it.type == "Game" }
+
+
+                        gameAdapter.asyncDifferList.submitList(filteredGameList)
+
+                    }
+                    is Resource.Error->{
+
+                    }
+                    is Resource.Loading->{
+
+                    }
+                }
+            }
+        }
+    }
+
+    private fun getAllGames(searchQuery:String){
+        gameViewModel.getGameGiveaways()
+        viewLifecycleOwner.lifecycleScope.launch {
+            gameViewModel.allGameGiveAwayList.collect{allGamesList->
+                when(allGamesList){
+                    is Resource.Success->{
+
+                        binding.noDataLayoutDlc.root.visibility = View.GONE
+                        val allGames = allGamesList.data
+                        val filteredGamesList = if(searchQuery.isEmpty()){
+                            allGames
+                        }else{
+                            allGames!!.filter { it.title.lowercase().contains(searchQuery)   }
+
+                        }
+                        gameAdapter.asyncDifferList.submitList(filteredGamesList)
+
+
+                    }
+                    is Resource.Error->{
+                        binding.noDataLayoutDlc.root.visibility = View.VISIBLE
+                    }
+                    is Resource.Loading->{
+                        binding.noDataLayoutDlc.root.visibility = View.VISIBLE
+
+                    }
+                }
+            }
+        }
+    }
+
+
+    private fun handleSearchFunctionality(){
+        binding.etSearchDlc.addTextChangedListener(object : TextWatcher {
+
+            override fun beforeTextChanged(searchText: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(searchText: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun afterTextChanged(searchQuery: Editable?) {
+                val searchText = searchQuery.toString().trim().lowercase()
+
+                getAllGames(searchText)
+
+
+            }
+        })
+    }
+
+    private fun handleRv(){
         gameAdapter = GameAdapter(object : GameAdapter.OnItemClickListener {
             override fun onItemClick(currentGame: GameGiveAwayResponseItem) {
                 val bundle = Bundle().apply {
@@ -94,8 +188,6 @@ class DLCsFragment : Fragment() {
             rvDlc.adapter = gameAdapter
             rvDlc.layoutManager = LinearLayoutManager(requireContext())
         }
-
-
 
     }
 
