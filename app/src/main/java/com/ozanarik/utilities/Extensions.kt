@@ -1,12 +1,8 @@
 package com.ozanarik.utilities
 
-import android.os.Build
 import android.view.View
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 
 class Extensions {
 
@@ -20,10 +16,11 @@ class Extensions {
         }
 
 
+        fun View.showSnackbar(message: String, length: Int = Snackbar.LENGTH_LONG){
 
+            Snackbar.make(this,message,length).show()
 
-
-
+        }
     }
 
 }

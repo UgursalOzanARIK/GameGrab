@@ -4,30 +4,37 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import com.ozanarik.gamegrab.R
 import com.ozanarik.gamegrab.databinding.ActivityLoginBinding
 import com.ozanarik.ui.viewmodels.FirebaseViewModel
+import com.ozanarik.utilities.Extensions.Companion.showSnackbar
+import com.ozanarik.utilities.Resource
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
-    private lateinit var firebaseViewModel: FirebaseViewModel
     private lateinit var binding: ActivityLoginBinding
+    private lateinit var firebaseViewModel: FirebaseViewModel
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
 
         binding = ActivityLoginBinding.inflate(layoutInflater)
         firebaseViewModel = ViewModelProvider(this)[FirebaseViewModel::class.java]
 
 
-        handleSignup()
+        handleLogin()
 
+
+        binding.imageViewNavigateBackFromSettings.setOnClickListener {
+            startActivity(Intent(this@LoginActivity,SignupActivity::class.java))
+            finish()
+        }
 
 
 
@@ -37,51 +44,44 @@ class LoginActivity : AppCompatActivity() {
 
 
 
-    private fun handleSignup(){
+    private fun handleLogin(){
 
 
-        val email = binding.etEmail.text.toString().trim()
-        val password = binding.etPassword.text.toString().trim()
-
-        binding.buttonNext.setOnClickListener {
-
-            if (email.isEmpty() || password.isEmpty()){
-
-                Toast.makeText(this,"Empty",Toast.LENGTH_LONG).show()
+        binding.buttonLogin.setOnClickListener {
 
 
 
-                binding.etEmail.error = "This field is required"
-                binding.etPassword.error = "This field is required"
+
+            val email = binding.etEmailLogin.text.toString()
+            val password = binding.etPasswordLogin.text.toString()
 
 
-                return@setOnClickListener
-            }else{
-                firebaseViewModel.signupUser(email,password)
+            if (email.isNotEmpty() || password.isNotEmpty()){
+                firebaseViewModel.loginUser(email,password)
 
                 lifecycleScope.launch {
-                    firebaseViewModel.authState.collect{authState->
 
-                        when(authState){
-                            true->{
-                                startActivity(Intent(this@LoginActivity,MainActivity::class.java))
+                    firebaseViewModel.loginState.collect{firebaseLoginResponse->
+                        when(firebaseLoginResponse){
+                            is Resource.Success->{
+                                Log.e("asd","succ")
 
-                            }
-                            false->{
-                                Log.e("asd",",asd")
-                            }
+                                startActivity(Intent(this@LoginActivity,MainActivity::class.java))}
+                            is Resource.Error->{binding.buttonLogin.showSnackbar(firebaseLoginResponse.message!!)}
+                            is Resource.Loading->{binding.buttonLogin.showSnackbar("Logging in!")}
                         }
 
                     }
                 }
             }
-            }
 
+        }
 
 
 
 
 
     }
+
 
 }

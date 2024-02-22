@@ -9,9 +9,9 @@
               <option name="connection">
                 <ConnectionSetting>
                   <option name="appId" value="com.ozanarik.gamegrab" />
-                  <option name="mobileSdkAppId" value="1:305670689873:android:d2f1404c7a7b42071bd470" />
-                  <option name="projectId" value="gamegrab-b0abc" />
-                  <option name="projectNumber" value="305670689873" />
+                  <option name="mobileSdkAppId" value="1:412985339494:android:694fe066a716cdd9dcc7a7" />
+                  <option name="projectId" value="gamegrab-32cf7" />
+                  <option name="projectNumber" value="412985339494" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

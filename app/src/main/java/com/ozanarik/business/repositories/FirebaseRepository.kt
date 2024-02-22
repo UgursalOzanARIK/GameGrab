@@ -1,57 +1,88 @@
 package com.ozanarik.business.repositories
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.UserProfileChangeRequest
+import com.ozanarik.utilities.Resource
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.tasks.await
+import java.io.IOException
 import javax.inject.Inject
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 class FirebaseRepository @Inject constructor(private val firebaseAuth:FirebaseAuth) {
 
+    private val _signupState:MutableStateFlow<Resource<FirebaseUser>> = MutableStateFlow(Resource.Loading())
+    val signupState:StateFlow<Resource<FirebaseUser>> = _signupState
 
-    private val _firebaseUser:MutableLiveData<FirebaseUser> = MutableLiveData()
-
-    val firebaseUser:LiveData<FirebaseUser?> =_firebaseUser
-
-    val errorMessage:MutableStateFlow<String> = MutableStateFlow("")
+    private val _loginState:MutableStateFlow<Resource<FirebaseUser>> = MutableStateFlow(Resource.Loading())
+    val loginState:StateFlow<Resource<FirebaseUser>> = _loginState
 
 
-    fun signupUser(email:String,password:String){
+    suspend fun signupUser(email:String, password:String,displayName:String) {
 
-        firebaseAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener { task->
+        _signupState.value = Resource.Loading()
 
-            if (task.isSuccessful){
-                _firebaseUser.value = firebaseAuth.currentUser
-            }else{
-                errorMessage.value = task.exception?.message.toString()
+        try {
+
+
+            val authResult = firebaseAuth.createUserWithEmailAndPassword(email,password).await()
+
+            val firebaseUser = authResult.user
+
+
+            val profileUpdateRequest = UserProfileChangeRequest.Builder()
+                .setDisplayName(displayName)
+                .build()
+            firebaseUser!!.updateProfile(profileUpdateRequest).await()
+
+
+            _signupState.value = Resource.Success(firebaseUser)
+
+        }catch (e:Exception){
+            val errorMsg = when(e){
+                is FirebaseException->{"Firebase Exception: ${e.message?:e.localizedMessage}"}
+                is IOException->{"IO Exception: ${e.message?:e.localizedMessage}"}
+                else->{"Unknown Error"}
             }
-
-
+            _signupState.value = Resource.Error(errorMsg)
         }
     }
 
 
-    suspend fun signInUser(email:String,password: String,onComplete: (Boolean, String?) -> Unit){
+    suspend fun loginUser(email:String,password: String){
+        _loginState.value = Resource.Loading()
 
+        try {
 
-        firebaseAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener { task->
+            val loginResult = firebaseAuth.signInWithEmailAndPassword(email,password).await()
 
-            if (task.isSuccessful){
-                onComplete(true,null)
-            }else{
-                onComplete(false,task.exception?.message)
+            if (loginResult.user!=null){
+                _loginState.value = Resource.Success(loginResult.user!!)
             }
+
+
+        }catch (e:Exception){
+            val errorMsg = when(e){
+                is FirebaseException->{"Firebase Exception: ${e.message?:e.localizedMessage}"}
+                is IOException->{"IO Exception: ${e.message?:e.localizedMessage}"}
+                else->{"Unknown Error"}
+            }
+
+            _loginState.value = Resource.Error(errorMsg)
         }
     }
 
+    suspend fun userSignOut(){
 
-    fun signOut(){
-
-        if (firebaseAuth.currentUser!=null){
+        return suspendCoroutine { continuation->
             firebaseAuth.signOut()
+            continuation.resume(Unit)
         }
     }
+
 
 }

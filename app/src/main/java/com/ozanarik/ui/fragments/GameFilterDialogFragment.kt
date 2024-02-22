@@ -14,6 +14,7 @@ import com.ozanarik.gamegrab.R
 import com.ozanarik.gamegrab.databinding.FragmentGameFilterDialogBinding
 import com.ozanarik.ui.viewmodels.GameViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 
 @AndroidEntryPoint
 class GameFilterDialogFragment : DialogFragment() {

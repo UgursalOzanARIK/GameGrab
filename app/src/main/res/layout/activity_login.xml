@@ -8,100 +8,80 @@
     tools:context="com.ozanarik.ui.activities.LoginActivity">
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/textView11"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:text="Sign in to Game Grab!"
+        android:layout_marginTop="32dp"
+        android:fontFamily="@font/actor"
+        android:text="Log in to your account"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView9" />
+        app:layout_constraintTop_toBottomOf="@+id/imageViewNavigateBackFromSettings" />
 
-    <EditText
-        android:id="@+id/etEmail"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/login_fragment_edit_text_id_pw_bg"
-        android:ems="10"
-        android:hint="E-Mail"
-        android:inputType="text"
-        android:paddingStart="16dp"
-        android:textColorHint="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
-
-    <EditText
-        android:id="@+id/etPassword"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
+    <ImageView
+        android:id="@+id/imageViewNavigateBackFromSettings"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
+        android:src="@drawable/baseline_arrow_back_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/etEmailLogin"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="32dp"
         android:background="@drawable/login_fragment_edit_text_id_pw_bg"
+        android:drawableEnd="@drawable/baseline_email_24"
+        android:ems="10"
+        android:hint="E mail"
+        android:inputType="text"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:textColorHint="@color/textColor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView11" />
+
+    <EditText
+        android:id="@+id/etPasswordLogin"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/login_fragment_edit_text_id_pw_bg"
+        android:drawableEnd="@drawable/baseline_password_24"
         android:ems="10"
         android:hint="Password"
         android:inputType="text"
         android:paddingStart="16dp"
-        android:textColorHint="@color/white"
+        android:paddingEnd="16dp"
+        android:textColorHint="@color/textColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etEmail" />
+        app:layout_constraintTop_toBottomOf="@+id/etEmailLogin" />
 
     <Button
-        android:id="@+id/buttonNext"
-        android:layout_width="0dp"
-        android:layout_height="75dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="64dp"
-        android:layout_marginEnd="16dp"
-        android:backgroundTint="@color/darkBlue"
-        android:text="Next"
-        android:textColor="@color/white"
-        app:cornerRadius="15dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etPassword"
-        app:strokeColor="@color/graphiteGray"
-        app:strokeWidth="2dp" />
-
-    <Button
-        android:id="@+id/buttonForgotEmail"
+        android:id="@+id/buttonLogin"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="16dp"
-        android:backgroundTint="@color/darkGray"
-        android:text="Forgot e-Mail ?"
-        app:cornerRadius="15dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonNext"
-        app:strokeColor="@color/white"
-        app:strokeWidth="2dp" />
-
-    <ImageView
-        android:id="@+id/imageView9"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="256dp"
         android:layout_marginEnd="32dp"
-        android:alpha="0.8"
-        android:elevation="25dp"
-        android:outlineSpotShadowColor="@color/white"
-        android:scaleType="fitXY"
-        android:src="@drawable/gameover"
+        android:backgroundTint="@color/darkBlue"
+        android:text="Log In"
+        android:textColor="@color/white"
+        app:cornerRadius="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/etPasswordLogin" />
 </androidx.constraintlayout.widget.ConstraintLayout>

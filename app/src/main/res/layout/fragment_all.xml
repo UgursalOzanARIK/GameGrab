@@ -16,24 +16,22 @@
         >
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapsingToolbarLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:contentScrim="@color/mainBgColor"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
             android:background="@color/mainBgColor"
-            app:titleCollapseMode="fade"
-            app:title="Game Grab"
-            app:expandedTitleTextColor="@color/white"
             app:collapsedTitleTextColor="@color/graphiteGray"
+            app:contentScrim="@color/mainBgColor"
+            app:expandedTitleTextColor="@color/white"
             app:layout_scrollEffect="compress"
-            >
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:titleCollapseMode="fade">
 
             <androidx.appcompat.widget.Toolbar
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="@color/mainBgColor"
-                app:layout_collapseMode="parallax"
-                />
+                app:layout_collapseMode="parallax" />
 
 
             <com.google.android.material.tabs.TabLayout
