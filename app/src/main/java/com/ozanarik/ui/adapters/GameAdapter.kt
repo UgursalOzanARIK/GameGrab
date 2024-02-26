@@ -1,9 +1,12 @@
 package com.ozanarik.ui.adapters
 
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
@@ -16,7 +19,7 @@ import com.squareup.picasso.Picasso
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-class GameAdapter (private val onItemClickListener: OnItemClickListener) :RecyclerView.Adapter<GameAdapter.GameHolder>() {
+class GameAdapter (private val onItemClickListener: OnItemClickListener, private val onBookMarked: OnBookMarked) :RecyclerView.Adapter<GameAdapter.GameHolder>() {
 
     inner class GameHolder(val binding: GameGiveawayListItemBinding):RecyclerView.ViewHolder(binding.root)
 
@@ -43,6 +46,8 @@ class GameAdapter (private val onItemClickListener: OnItemClickListener) :Recycl
     override fun onBindViewHolder(holder: GameHolder, position: Int) {
         val currentGame = asyncDifferList.currentList[position]
 
+        var bookmarkedYet = false
+
         holder.binding.apply {
 
             tvGameName.text = currentGame.title
@@ -68,8 +73,16 @@ class GameAdapter (private val onItemClickListener: OnItemClickListener) :Recycl
             }
             tvGameType.text = currentGame.type
 
+            imageViewBookmark.setOnClickListener {
+
+                bookmarkedYet = !bookmarkedYet
 
 
+                animateBookMarkImageView(imageViewBookmark,bookmarkedYet)
+
+                onBookMarked.onGameBookmarked(currentGame)
+
+            }
 
         }
 
@@ -77,10 +90,51 @@ class GameAdapter (private val onItemClickListener: OnItemClickListener) :Recycl
 
     }
 
+    private fun animateBookMarkImageView(bookmarkImageView:ImageView,bookmarked:Boolean){
+
+
+        if (bookmarked){
+            bookmarkImageView.setImageResource(R.drawable.bookmarkadded)
+
+            val scaleX = ObjectAnimator.ofFloat(bookmarkImageView,"scaleX",1.0f,1.5f)
+            scaleX.duration = 500L
+
+            val scaleY = ObjectAnimator.ofFloat(bookmarkImageView,"scaleY",1.0f,1.5f)
+            scaleY.duration =  500L
+
+            val multiAnim = AnimatorSet().apply {
+                duration = 500L
+                playTogether(scaleX,scaleY)
+            }
+            multiAnim.start()
+        }else{
+            bookmarkImageView.setImageResource(R.drawable.notbookmarkedyet)
+
+            val scaleX = ObjectAnimator.ofFloat(bookmarkImageView,"scaleX",1.5f,1.0f)
+            scaleX.duration = 500L
+
+            val scaleY = ObjectAnimator.ofFloat(bookmarkImageView,"scaleY",1.5f,1.0f)
+            scaleY.duration =  500L
+
+            val multiAnim = AnimatorSet().apply {
+                duration = 500L
+                playTogether(scaleX,scaleY)
+            }
+            multiAnim.start()
+        }
+
+
+
+    }
+
     override fun getItemCount(): Int {
         return asyncDifferList.currentList.size
     }
 
+
+    interface OnBookMarked{
+        fun onGameBookmarked(currentGame: GameGiveAwayResponseItem)
+    }
 
     interface OnItemClickListener{
         fun onItemClick(currentGame:GameGiveAwayResponseItem)

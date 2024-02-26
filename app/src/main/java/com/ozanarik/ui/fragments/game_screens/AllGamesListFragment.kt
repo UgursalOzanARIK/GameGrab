@@ -22,7 +22,9 @@ import com.ozanarik.gamegrab.databinding.FragmentAllGamesListBinding
 import com.ozanarik.ui.adapters.GameAdapter
 import com.ozanarik.ui.fragments.GameFilterDialogFragment
 import com.ozanarik.ui.fragments.main_fragments.FragmentAllDirections
+import com.ozanarik.ui.viewmodels.FirebaseViewModel
 import com.ozanarik.ui.viewmodels.GameViewModel
+import com.ozanarik.utilities.Extensions.Companion.showSnackbar
 import com.ozanarik.utilities.Resource
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -35,6 +37,8 @@ class AllGamesListFragment : Fragment(),GameFilterDialogFragment.OnGameFilterLis
     private lateinit var gameAdapter: GameAdapter
     private lateinit var gameViewModel: GameViewModel
 
+    private lateinit var firebaseViewModel: FirebaseViewModel
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -43,7 +47,7 @@ class AllGamesListFragment : Fragment(),GameFilterDialogFragment.OnGameFilterLis
 
         binding = FragmentAllGamesListBinding.inflate(inflater,container,false)
         gameViewModel = ViewModelProvider(this)[GameViewModel::class.java]
-
+        firebaseViewModel = ViewModelProvider(this)[FirebaseViewModel::class.java]
 
         handleRv()
 
@@ -79,10 +83,8 @@ class AllGamesListFragment : Fragment(),GameFilterDialogFragment.OnGameFilterLis
                             allGames
                         }else{
                             allGames!!.filter { it.title.lowercase().contains(searchQuery)   }
-
                         }
                         gameAdapter.asyncDifferList.submitList(filteredGamesList)
-
 
                     }
                     is Resource.Error->{
@@ -110,7 +112,16 @@ class AllGamesListFragment : Fragment(),GameFilterDialogFragment.OnGameFilterLis
                 findNavController().navigate(R.id.action_fragmentAll_to_gameDetailFragment,bundle)
 
             }
-        })
+        },object : GameAdapter.OnBookMarked {
+            override fun onGameBookmarked(currentGame: GameGiveAwayResponseItem) {
+
+
+                gameViewModel.wishlistGame(currentGame)
+
+
+            }
+        } )
+
 
         binding.apply {
             rvGames.setHasFixedSize(true)
@@ -159,8 +170,6 @@ class AllGamesListFragment : Fragment(),GameFilterDialogFragment.OnGameFilterLis
     }
 
     override fun onGameFiltered(selectedPlatformList: List<String>) {
-
-
 
         gameViewModel.getMultiPlatformSearch(selectedPlatformList)
         viewLifecycleOwner.lifecycleScope.launch {

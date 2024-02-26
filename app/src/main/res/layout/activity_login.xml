@@ -62,7 +62,7 @@
         android:drawableEnd="@drawable/baseline_password_24"
         android:ems="10"
         android:hint="Password"
-        android:inputType="text"
+        android:inputType="textPassword"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
         android:textColorHint="@color/textColor"

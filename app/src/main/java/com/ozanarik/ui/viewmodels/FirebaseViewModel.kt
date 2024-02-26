@@ -1,13 +1,16 @@
 package com.ozanarik.ui.viewmodels
 
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseUser
+import com.ozanarik.business.model.GameGiveAwayResponseItem
 import com.ozanarik.business.repositories.FirebaseRepository
 import com.ozanarik.utilities.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,6 +23,24 @@ class FirebaseViewModel @Inject constructor(private val firebaseRepository: Fire
     private val _loginState:MutableStateFlow<Resource<FirebaseUser>> = MutableStateFlow(Resource.Loading())
     val loginState:StateFlow<Resource<FirebaseUser>> = _loginState
 
+    private val _profilePhotoUri:MutableStateFlow<Resource<Uri>> = MutableStateFlow(Resource.Loading())
+    val profilePhotoUri:StateFlow<Resource<Uri>> =_profilePhotoUri
+
+    private val _getProfilePhotoFromFirestore:MutableStateFlow<Resource<String>> = MutableStateFlow(Resource.Loading())
+    val getProfilePhotoFromFirestore:StateFlow<Resource<String>> = _getProfilePhotoFromFirestore
+
+
+
+    fun getProfilePhotoFromFirestore()=viewModelScope.launch {
+
+        firebaseRepository.getProfilePhoto()
+
+        firebaseRepository.getPhotoFromFirestore.collect{profilePhotoResponse->
+            _getProfilePhotoFromFirestore.value = profilePhotoResponse
+        }
+
+
+    }
 
 
     fun loginUser(email: String, password: String)=viewModelScope.launch {
@@ -29,9 +50,7 @@ class FirebaseViewModel @Inject constructor(private val firebaseRepository: Fire
         firebaseRepository.loginState.collect{firebaseLoginResponse->
 
             _loginState.value = firebaseLoginResponse
-
         }
-
     }
 
 
@@ -47,6 +66,16 @@ class FirebaseViewModel @Inject constructor(private val firebaseRepository: Fire
         }
 
     }
+
+    fun uploadProfilePhoto(profilePhotoUri:Uri)=viewModelScope.launch {
+        firebaseRepository.uploadProfilePhoto(profilePhotoUri)
+
+        firebaseRepository.profilePhotoUri.collect{profilePhotoResponse->
+            _profilePhotoUri.value = profilePhotoResponse
+        }
+    }
+
+
 
     fun signOutUser()=viewModelScope.launch{
         firebaseRepository.userSignOut()

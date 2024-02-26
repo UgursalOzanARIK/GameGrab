@@ -1,11 +1,17 @@
 package com.ozanarik.di
 
+import android.content.Context
+import androidx.room.Room
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.ozanarik.business.local.GamesDao
+import com.ozanarik.business.local.GamesDatabase
 import com.ozanarik.business.remote.GameApi
 import com.ozanarik.business.repositories.FirebaseRepository
 import com.ozanarik.business.repositories.GameRepository
@@ -13,6 +19,7 @@ import com.ozanarik.utilities.Constants.Companion.BASE_URL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -31,7 +38,6 @@ class AppModule {
     @Singleton
     fun provideBaseUrl()=BASE_URL
 
-
     @Provides
     @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient):Retrofit{
@@ -47,17 +53,43 @@ class AppModule {
             .build()
     }
 
+    @Provides
+    @Singleton
+    fun provideGameDatabase(@ApplicationContext context:Context):GamesDatabase{
+        return Room.databaseBuilder(context,GamesDatabase::class.java,"game_Table")
+            .fallbackToDestructiveMigration()
+            .build()
+    }
 
     @Provides
     @Singleton
-    fun provideFirebaseRepository(firebaseAuth: FirebaseAuth):FirebaseRepository{
-        return FirebaseRepository(firebaseAuth)
+    fun provideGamesDao(db:GamesDatabase):GamesDao{
+        return db.gamesDao
+    }
+
+
+    @Provides
+    @Singleton
+    fun provideFirebaseRepository(firebaseAuth: FirebaseAuth,firebaseStorage: FirebaseStorage,firebaseFirestore: FirebaseFirestore):FirebaseRepository{
+        return FirebaseRepository(firebaseAuth,firebaseStorage,firebaseFirestore)
     }
 
     @Provides
     @Singleton
     fun provideFirebaseAuth():FirebaseAuth{
         return FirebaseAuth.getInstance()
+    }
+
+    @Provides
+    @Singleton
+    fun provideFirebaseFireStore():FirebaseFirestore{
+        return FirebaseFirestore.getInstance()
+    }
+
+    @Provides
+    @Singleton
+    fun provideFirebaseStorage():FirebaseStorage{
+        return FirebaseStorage.getInstance()
     }
 
     @Provides

@@ -83,16 +83,13 @@ class GameFilterDialogFragment : DialogFragment() {
                 filteredGamesList.add("gog")
             }
 
-
             if (checkBoxIOS.isChecked) {
                 filteredGamesList.add("ios")
             }
 
-
             if (checkBoxXbox.isChecked) {
                 filteredGamesList.add("xbox-one")
             }
-
 
             if (checkBoxEpicGames.isChecked) {
                 filteredGamesList.add("epic-games-store")

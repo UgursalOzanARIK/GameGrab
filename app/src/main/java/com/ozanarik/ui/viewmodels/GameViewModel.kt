@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.ozanarik.business.model.GameGiveAwayResponse
 import com.ozanarik.business.model.GameGiveAwayResponseItem
 import com.ozanarik.business.repositories.GameRepository
+import com.ozanarik.business.repositories.local.RoomRepository
 import com.ozanarik.utilities.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -21,7 +22,7 @@ import java.io.IOException
 import javax.inject.Inject
 
 @HiltViewModel
-class GameViewModel @Inject constructor(private val gameRepository: GameRepository) :ViewModel() {
+class GameViewModel @Inject constructor(private val gameRepository: GameRepository, private val roomRepository: RoomRepository) :ViewModel() {
 
     private val _allGameGiveAwayList:MutableStateFlow<Resource<GameGiveAwayResponse>> = MutableStateFlow(Resource.Loading())
     val allGameGiveAwayList:StateFlow<Resource<GameGiveAwayResponse>> = _allGameGiveAwayList
@@ -104,5 +105,22 @@ class GameViewModel @Inject constructor(private val gameRepository: GameReposito
         }
 
     }
+
+
+
+
+
+
+
+
+
+
+
+
+    fun wishlistGame(game:GameGiveAwayResponseItem)=viewModelScope.launch { roomRepository.wishlistGame(game) }
+    fun deleteGame(game:GameGiveAwayResponseItem)=viewModelScope.launch { roomRepository.deleteGame(game) }
+    fun getAllWishlistedGames()=viewModelScope.launch { roomRepository.getAllWishlistedGames() }
+
+    fun searchGames(query:String?)=viewModelScope.launch { roomRepository.searchGame(query) }
 
 }

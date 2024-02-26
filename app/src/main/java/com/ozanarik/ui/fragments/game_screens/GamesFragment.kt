@@ -19,6 +19,7 @@ import com.ozanarik.ui.adapters.GameAdapter
 import com.ozanarik.ui.fragments.GameFilterDialogFragment
 import com.ozanarik.ui.fragments.main_fragments.FragmentAllDirections
 import com.ozanarik.ui.viewmodels.GameViewModel
+import com.ozanarik.utilities.Extensions.Companion.showSnackbar
 import com.ozanarik.utilities.Resource
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -179,6 +180,10 @@ class GamesFragment : Fragment(),GameFilterDialogFragment.OnGameFilterListener {
 
                 findNavController().navigate(R.id.action_fragmentAll_to_gameDetailFragment,bundle)
 
+            }
+        }, object : GameAdapter.OnBookMarked {
+            override fun onGameBookmarked(currentGame: GameGiveAwayResponseItem) {
+                showSnackbar("${currentGame.title} added to wishlist!")
             }
         })
 
