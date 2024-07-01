@@ -19,6 +19,7 @@ import com.google.gson.Gson
 import com.ozanarik.business.model.GameGiveAwayResponseItem
 import com.ozanarik.gamegrab.R
 import com.ozanarik.gamegrab.databinding.FragmentAllGamesListBinding
+import com.ozanarik.gamegrab.databinding.GameGiveawayListItemBinding
 import com.ozanarik.ui.adapters.GameAdapter
 import com.ozanarik.ui.fragments.GameFilterDialogFragment
 import com.ozanarik.ui.fragments.main_fragments.FragmentAllDirections
@@ -54,6 +55,20 @@ class AllGamesListFragment : Fragment(),GameFilterDialogFragment.OnGameFilterLis
         getAllGames(binding.etSearch.text.toString())
         handleSearchFunctionality()
 
+        gameViewModel.getBookmarked()
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            gameViewModel.isGameBookmarked.collect{isBookmarked->
+                if (isBookmarked){
+
+                }else{
+
+                }
+            }
+
+        }
+
+
 
 
 
@@ -68,6 +83,8 @@ class AllGamesListFragment : Fragment(),GameFilterDialogFragment.OnGameFilterLis
 
 
     }
+
+
 
     private fun getAllGames(searchQuery:String){
         gameViewModel.getGameGiveaways()
@@ -115,12 +132,16 @@ class AllGamesListFragment : Fragment(),GameFilterDialogFragment.OnGameFilterLis
         },object : GameAdapter.OnBookMarked {
             override fun onGameBookmarked(currentGame: GameGiveAwayResponseItem) {
 
-
                 gameViewModel.wishlistGame(currentGame)
 
+                Log.e("asd",currentGame.isGameBookmarked.toString())
+                Log.e("asd",currentGame.title)
+
+
+                gameViewModel.setBookmarked(currentGame.isGameBookmarked)
 
             }
-        } )
+        })
 
 
         binding.apply {

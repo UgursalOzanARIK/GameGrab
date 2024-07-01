@@ -1,28 +1,27 @@
 package com.ozanarik.ui.viewmodels
 
-import android.util.Log
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ozanarik.business.model.GameGiveAwayResponse
 import com.ozanarik.business.model.GameGiveAwayResponseItem
 import com.ozanarik.business.repositories.GameRepository
 import com.ozanarik.business.repositories.local.RoomRepository
+import com.ozanarik.utilities.DataStoreManager
 import com.ozanarik.utilities.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import okhttp3.internal.platform.Platform
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import java.io.IOException
 import javax.inject.Inject
 
 @HiltViewModel
-class GameViewModel @Inject constructor(private val gameRepository: GameRepository, private val roomRepository: RoomRepository) :ViewModel() {
+class GameViewModel @Inject constructor(application:Application,private val gameRepository: GameRepository, private val roomRepository: RoomRepository) :AndroidViewModel(application) {
 
     private val _allGameGiveAwayList:MutableStateFlow<Resource<GameGiveAwayResponse>> = MutableStateFlow(Resource.Loading())
     val allGameGiveAwayList:StateFlow<Resource<GameGiveAwayResponse>> = _allGameGiveAwayList
@@ -33,6 +32,27 @@ class GameViewModel @Inject constructor(private val gameRepository: GameReposito
 
     private val _multiPlatformSearch:MutableStateFlow<Resource<List<GameGiveAwayResponseItem>>> = MutableStateFlow(Resource.Loading())
     val multiPlatformSearch:StateFlow<Resource<List<GameGiveAwayResponseItem>>> = _multiPlatformSearch
+
+
+    private val _getAllWishlistedGames:MutableStateFlow<Resource<List<GameGiveAwayResponseItem>>> = MutableStateFlow(Resource.Loading())
+    val getAllWishlistedGames:StateFlow<Resource<List<GameGiveAwayResponseItem>>> =_getAllWishlistedGames
+
+    private val _isGameBookmarked:MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val isGameBookmarked:StateFlow<Boolean> = _isGameBookmarked
+
+    private val dataStore = DataStoreManager(application)
+
+    fun getBookmarked()=viewModelScope.launch {
+
+        dataStore.getBookmarked().collect{isBookmarked->
+
+            _isGameBookmarked.value = isBookmarked
+        }
+    }
+
+    fun setBookmarked(isBookMarked:Boolean)=viewModelScope.launch {
+        dataStore.setBookmarked(isBookMarked)
+    }
 
 
     fun getMultiPlatformSearch(platform:List<String>)=viewModelScope.launch {
@@ -108,19 +128,20 @@ class GameViewModel @Inject constructor(private val gameRepository: GameReposito
 
 
 
-
-
-
-
-
-
-
-
-
     fun wishlistGame(game:GameGiveAwayResponseItem)=viewModelScope.launch { roomRepository.wishlistGame(game) }
     fun deleteGame(game:GameGiveAwayResponseItem)=viewModelScope.launch { roomRepository.deleteGame(game) }
-    fun getAllWishlistedGames()=viewModelScope.launch { roomRepository.getAllWishlistedGames() }
+    fun getAllWishlistedGames()=viewModelScope.launch {
+        roomRepository.getWishlistedGames().collect{ wishlistedGamesList->
+        when(wishlistedGamesList){
+            is Resource.Success->{_getAllWishlistedGames.value = Resource.Success(wishlistedGamesList.data!!)}
+            is Resource.Loading->{_getAllWishlistedGames.value = Resource.Loading()}
+            is Resource.Error->{_getAllWishlistedGames.value = Resource.Error(wishlistedGamesList.message!!)}
+        }
+
+    } }
 
     fun searchGames(query:String?)=viewModelScope.launch { roomRepository.searchGame(query) }
+
+    fun getWishlistedGamesFromDatabaseCount()=viewModelScope.launch { roomRepository.getAllWishlistedGamesCount() }
 
 }

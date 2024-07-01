@@ -2,17 +2,19 @@ package com.ozanarik.business.model
 
 
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import com.google.gson.annotations.Expose
 import java.io.Serializable
 
 
-@Entity(tableName = "game_Table")
+@Entity(tableName = "game_Table", indices = [Index(value = ["id"], unique = true)])
 data class GameGiveAwayResponseItem(
     @PrimaryKey(autoGenerate = true)
     val gameId:Int = 0,
 
+    var isGameBookmarked:Boolean = false,
     @Expose
     val description: String = "", // Say goodbye to boredom and hello to epic explosive physics with FlatOut – and guess what? You can grab it for free via GOG! Prepare yourself for high-speed racing with epic demolition derbies that'll have you wrecking opponents with glee, and stunts so wild they'll make everyone blush! You'll be launching yourself through the windshield in style!
     @SerializedName("end_date")

@@ -78,7 +78,7 @@ class GamesFragment : Fragment(),GameFilterDialogFragment.OnGameFilterListener {
                 when(multiPlatform){
                     is Resource.Success->{gameAdapter.asyncDifferList.submitList(multiPlatform.data)}
                     is Resource.Error->{
-                        Log.e("asd",multiPlatform.message!!)
+                        Log.e("error message",multiPlatform.message!!)
                     }
                     is Resource.Loading->{
 

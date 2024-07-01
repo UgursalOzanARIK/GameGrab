@@ -17,7 +17,11 @@
         android:id="@+id/wishlistFragment"
         android:name="com.ozanarik.ui.fragments.main_fragments.WishlistFragment"
         android:label="fragment_wishlist"
-        tools:layout="@layout/fragment_wishlist" />
+        tools:layout="@layout/fragment_wishlist" >
+        <action
+            android:id="@+id/action_wishlistFragment_to_gameDetailFragment"
+            app:destination="@id/gameDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.ozanarik.ui.fragments.main_fragments.SettingsFragment"

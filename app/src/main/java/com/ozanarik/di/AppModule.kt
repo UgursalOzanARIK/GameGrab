@@ -16,6 +16,7 @@ import com.ozanarik.business.remote.GameApi
 import com.ozanarik.business.repositories.FirebaseRepository
 import com.ozanarik.business.repositories.GameRepository
 import com.ozanarik.utilities.Constants.Companion.BASE_URL
+import com.ozanarik.utilities.DataStoreManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -56,9 +57,21 @@ class AppModule {
     @Provides
     @Singleton
     fun provideGameDatabase(@ApplicationContext context:Context):GamesDatabase{
-        return Room.databaseBuilder(context,GamesDatabase::class.java,"game_Table")
+        return Room.databaseBuilder(context,GamesDatabase::class.java,"game_Table.db")
             .fallbackToDestructiveMigration()
             .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideContext(@ApplicationContext context:Context):Context{
+        return context
+    }
+
+    @Provides
+    @Singleton
+    fun provideDatastore(@ApplicationContext context:Context):DataStoreManager{
+        return DataStoreManager(context = context )
     }
 
     @Provides

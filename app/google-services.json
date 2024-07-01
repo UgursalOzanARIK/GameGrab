@@ -12,7 +12,20 @@
           "package_name": "com.ozanarik.gamegrab"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "412985339494-haj956185pm4viiljq8egfkssfc7gdot.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ozanarik.gamegrab",
+            "certificate_hash": "e81545d9b4cab8f182099c16ebfcf0336b543ebd"
+          }
+        },
+        {
+          "client_id": "412985339494-fsv5uqapb3n3bft8cdeddj8376iai3cv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCTKeru7RdM9biwHFdAkJS8XTP7aV-S3Zg"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "412985339494-fsv5uqapb3n3bft8cdeddj8376iai3cv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

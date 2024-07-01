@@ -3,24 +3,36 @@ package com.ozanarik.ui.activities
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.tasks.Task
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
+import com.ozanarik.gamegrab.R
 import com.ozanarik.gamegrab.databinding.ActivityLoginBinding
 import com.ozanarik.gamegrab.databinding.ActivitySignupBinding
 import com.ozanarik.ui.viewmodels.FirebaseViewModel
+import com.ozanarik.utilities.Constants.Companion.GOOGLE_OAUTH_KEY
 import com.ozanarik.utilities.Extensions.Companion.showSnackbar
 import com.ozanarik.utilities.Resource
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
 @AndroidEntryPoint
 class SignupActivity : AppCompatActivity() {
     private lateinit var firebaseViewModel: FirebaseViewModel
     private lateinit var binding: ActivitySignupBinding
     private lateinit var auth: FirebaseAuth
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,18 +42,12 @@ class SignupActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
 
 
-        if (auth.currentUser!=null){
+        if (auth.currentUser!=null && !auth.currentUser!!.isAnonymous) {
             startActivity(Intent(this@SignupActivity,MainActivity::class.java))
         }
 
 
         handleSignup()
-        handleSignupOrLogin()
-
-
-
-
-
 
 
         setContentView(binding.root)
@@ -49,21 +55,14 @@ class SignupActivity : AppCompatActivity() {
 
 
 
-    private fun handleSignupOrLogin(){
-
-        binding.tvLogin.setOnClickListener {
-            startActivity(Intent(this@SignupActivity,LoginActivity::class.java))
-
-        }
-
-
-    }
-
-
-
-
     private fun handleSignup() {
 
+
+                if (auth.currentUser!=null){
+                    Log.e("user","already signed in!")
+                    startActivity(Intent(this@SignupActivity,MainActivity::class.java))
+
+        }
 
         binding.buttonNext.setOnClickListener {
 
@@ -97,4 +96,5 @@ class SignupActivity : AppCompatActivity() {
         }
 
     }
+
 }

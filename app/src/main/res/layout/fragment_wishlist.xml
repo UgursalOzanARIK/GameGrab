@@ -1,13 +1,61 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.ozanarik.ui.fragments.main_fragments.WishlistFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="hsahment" />
+    <include
+        layout="@layout/no_wishlisted_games_layout"
+        android:id="@+id/noWishlistedGames"
+        android:visibility="gone"/>
 
-</FrameLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvWishlist"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etSearchWishlistedGames" />
+
+    <EditText
+        android:id="@+id/etSearchWishlistedGames"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/edittext_bg_custom"
+        android:drawableEnd="@drawable/baseline_search_24"
+        android:ems="10"
+        android:hint="@string/search_for_games"
+        android:inputType="text"
+        android:padding="16dp"
+        app:layout_constraintEnd_toStartOf="@+id/imageViewFilterWishlist"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/wishlistToolbar" />
+
+    <ImageView
+        android:id="@+id/imageViewFilterWishlist"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/filter"
+        app:layout_constraintBottom_toBottomOf="@+id/etSearchWishlistedGames"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/etSearchWishlistedGames" />
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/wishlistToolbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/mainBgColor"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="Wishlisted games"
+        app:titleTextColor="@color/white" />
+</androidx.constraintlayout.widget.ConstraintLayout>

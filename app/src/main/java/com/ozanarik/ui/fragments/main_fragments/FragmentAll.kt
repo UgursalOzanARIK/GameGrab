@@ -38,16 +38,6 @@ class FragmentAll : Fragment() {
 
         handleGameTitle()
 
-
-
-
-
-
-
-
-
-
-
         return binding.root
     }
     
@@ -61,10 +51,6 @@ class FragmentAll : Fragment() {
             }
         }
     }
-
-
-
-
 
     private fun handleTabLayout(){
 

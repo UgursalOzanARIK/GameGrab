@@ -6,8 +6,13 @@ import android.os.Bundle
 import android.util.Log
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.firebase.auth.FirebaseAuth
 import com.ozanarik.gamegrab.databinding.ActivityLoginBinding
 import com.ozanarik.ui.viewmodels.FirebaseViewModel
+import com.ozanarik.utilities.Constants.Companion.GOOGLE_OAUTH_KEY
 import com.ozanarik.utilities.Extensions.Companion.showSnackbar
 import com.ozanarik.utilities.Resource
 import dagger.hilt.android.AndroidEntryPoint
@@ -18,7 +23,6 @@ import kotlinx.coroutines.launch
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     private lateinit var firebaseViewModel: FirebaseViewModel
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,10 +41,8 @@ class LoginActivity : AppCompatActivity() {
         }
 
 
-
         setContentView(binding.root)
     }
-
 
 
 
@@ -81,6 +83,10 @@ class LoginActivity : AppCompatActivity() {
 
 
 
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
     }
 
 

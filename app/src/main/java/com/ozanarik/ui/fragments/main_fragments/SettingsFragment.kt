@@ -122,8 +122,17 @@ class SettingsFragment : Fragment() {
 
         if (auth.currentUser!=null){
 
-            binding.tvUserDisplayName.text = auth.currentUser!!.displayName
-            binding.tvUserEmail.text = auth.currentUser!!.email
+            binding.tvUserDisplayName.text = if (auth.currentUser!!.isAnonymous){
+                "N/A"
+            }else{
+                auth.currentUser!!.displayName
+            }
+            binding.tvUserEmail.text = if (auth.currentUser!!.isAnonymous){
+                "N/A"
+
+            }else{
+                auth.currentUser!!.email
+            }
 
         }
     }
@@ -162,7 +171,7 @@ class SettingsFragment : Fragment() {
             firebaseViewModel.getProfilePhotoFromFirestore.collect{profilePhotoResponse->
                 when(profilePhotoResponse){
                     is Resource.Success->{Picasso.get().load(profilePhotoResponse.data).placeholder(R.drawable.placeholder).error(R.drawable.error).into(binding.imageViewUserProfilePhoto)}
-                    is Resource.Error->{showSnackbar("profilePhotoResponse.message!!")}
+                    is Resource.Error->{showSnackbar("An error occured trying to get your profile photo!")}
                     is Resource.Loading->{showSnackbar("Fetching profile photo!")}
                 }
             }

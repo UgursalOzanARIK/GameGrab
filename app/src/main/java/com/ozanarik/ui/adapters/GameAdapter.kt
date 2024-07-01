@@ -2,6 +2,7 @@ package com.ozanarik.ui.adapters
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.content.Context
 import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,6 +16,7 @@ import com.google.android.material.chip.Chip
 import com.ozanarik.business.model.GameGiveAwayResponseItem
 import com.ozanarik.gamegrab.R
 import com.ozanarik.gamegrab.databinding.GameGiveawayListItemBinding
+import com.ozanarik.utilities.DataStoreManager
 import com.squareup.picasso.Picasso
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -46,8 +48,6 @@ class GameAdapter (private val onItemClickListener: OnItemClickListener, private
     override fun onBindViewHolder(holder: GameHolder, position: Int) {
         val currentGame = asyncDifferList.currentList[position]
 
-        var bookmarkedYet = false
-
         holder.binding.apply {
 
             tvGameName.text = currentGame.title
@@ -75,13 +75,13 @@ class GameAdapter (private val onItemClickListener: OnItemClickListener, private
 
             imageViewBookmark.setOnClickListener {
 
-                bookmarkedYet = !bookmarkedYet
+                currentGame.isGameBookmarked = !currentGame.isGameBookmarked
+                setBookmarkState(currentGame,imageViewBookmark)
 
 
-                animateBookMarkImageView(imageViewBookmark,bookmarkedYet)
+                animateBookMarkImageView(currentGame,imageViewBookmark)
 
                 onBookMarked.onGameBookmarked(currentGame)
-
             }
 
         }
@@ -90,11 +90,20 @@ class GameAdapter (private val onItemClickListener: OnItemClickListener, private
 
     }
 
-    private fun animateBookMarkImageView(bookmarkImageView:ImageView,bookmarked:Boolean){
-
-
-        if (bookmarked){
+    private fun setBookmarkState(game:GameGiveAwayResponseItem,bookmarkImageView: ImageView){
+        if (game.isGameBookmarked){
             bookmarkImageView.setImageResource(R.drawable.bookmarkadded)
+        }else{
+            bookmarkImageView.setImageResource(R.drawable.notbookmarkedyet)
+        }
+    }
+
+
+
+    private fun animateBookMarkImageView(game: GameGiveAwayResponseItem,bookmarkImageView:ImageView){
+
+
+        if (game.isGameBookmarked){
 
             val scaleX = ObjectAnimator.ofFloat(bookmarkImageView,"scaleX",1.0f,1.5f)
             scaleX.duration = 500L
@@ -108,7 +117,6 @@ class GameAdapter (private val onItemClickListener: OnItemClickListener, private
             }
             multiAnim.start()
         }else{
-            bookmarkImageView.setImageResource(R.drawable.notbookmarkedyet)
 
             val scaleX = ObjectAnimator.ofFloat(bookmarkImageView,"scaleX",1.5f,1.0f)
             scaleX.duration = 500L
@@ -123,14 +131,11 @@ class GameAdapter (private val onItemClickListener: OnItemClickListener, private
             multiAnim.start()
         }
 
-
-
     }
 
     override fun getItemCount(): Int {
         return asyncDifferList.currentList.size
     }
-
 
     interface OnBookMarked{
         fun onGameBookmarked(currentGame: GameGiveAwayResponseItem)
