@@ -4,6 +4,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Window
+import android.view.WindowManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -26,6 +28,8 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN)
 
 
         binding = ActivityLoginBinding.inflate(layoutInflater)
@@ -51,12 +55,8 @@ class LoginActivity : AppCompatActivity() {
 
         binding.buttonLogin.setOnClickListener {
 
-
-
-
             val email = binding.etEmailLogin.text.toString()
             val password = binding.etPasswordLogin.text.toString()
-
 
             if (email.isNotEmpty() || password.isNotEmpty()){
                 firebaseViewModel.loginUser(email,password)
@@ -66,28 +66,17 @@ class LoginActivity : AppCompatActivity() {
                     firebaseViewModel.loginState.collect{firebaseLoginResponse->
                         when(firebaseLoginResponse){
                             is Resource.Success->{
-                                Log.e("asd","succ")
 
+                                binding.etEmailLogin.showSnackbar("Login Succeeded! Navigating to main page...")
                                 startActivity(Intent(this@LoginActivity,MainActivity::class.java))}
                             is Resource.Error->{binding.buttonLogin.showSnackbar(firebaseLoginResponse.message!!)}
                             is Resource.Loading->{binding.buttonLogin.showSnackbar("Logging in!")}
                         }
-
                     }
                 }
             }
 
         }
-
-
-
-
-
     }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-    }
-
 
 }

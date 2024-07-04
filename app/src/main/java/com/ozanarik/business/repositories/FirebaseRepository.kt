@@ -1,7 +1,5 @@
 package com.ozanarik.business.repositories
 
-import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
 import android.net.Uri
 import com.google.firebase.FirebaseException
 import com.google.firebase.Timestamp
@@ -10,14 +8,10 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
-import com.ozanarik.business.model.GameGiveAwayResponseItem
 import com.ozanarik.utilities.Resource
-import com.squareup.picasso.Picasso
-import com.squareup.picasso.Target
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.tasks.await
-import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.util.UUID
 import javax.inject.Inject
@@ -174,6 +168,5 @@ class FirebaseRepository @Inject constructor
             continuation.resume(Unit)
         }
     }
-
 
 }

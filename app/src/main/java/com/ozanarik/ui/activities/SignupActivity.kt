@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
@@ -37,6 +38,9 @@ class SignupActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
+
+
         binding = ActivitySignupBinding.inflate(layoutInflater)
         firebaseViewModel = ViewModelProvider(this)[FirebaseViewModel::class.java]
         auth = FirebaseAuth.getInstance()
@@ -48,6 +52,7 @@ class SignupActivity : AppCompatActivity() {
 
 
         handleSignup()
+        handleAlreadyMemberLogin()
 
 
         setContentView(binding.root)
@@ -59,7 +64,6 @@ class SignupActivity : AppCompatActivity() {
 
 
                 if (auth.currentUser!=null){
-                    Log.e("user","already signed in!")
                     startActivity(Intent(this@SignupActivity,MainActivity::class.java))
 
         }
@@ -86,7 +90,7 @@ class SignupActivity : AppCompatActivity() {
                     }
                 }
             }else if(binding.etEmail.text.isEmpty() || binding.etPassword.text.isEmpty()){
-                binding.etEmail.setError("E mail or password can not be empty!",)
+                binding.etEmail.error = "E mail or password can not be empty!"
             }
             else{
                 binding.buttonNext.showSnackbar("Neither E mail nor password must be empty!")
@@ -96,5 +100,14 @@ class SignupActivity : AppCompatActivity() {
         }
 
     }
+
+  private fun handleAlreadyMemberLogin(){
+      binding.cardViewAlreadyMember.setOnClickListener {
+
+          startActivity(Intent(Intent(this@SignupActivity,LoginActivity::class.java)))
+
+      }
+  }
+
 
 }

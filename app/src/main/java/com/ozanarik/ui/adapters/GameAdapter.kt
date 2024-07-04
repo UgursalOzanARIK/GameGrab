@@ -3,6 +3,7 @@ package com.ozanarik.ui.adapters
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Context
+import android.graphics.Paint
 import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
@@ -52,6 +53,7 @@ class GameAdapter (private val onItemClickListener: OnItemClickListener, private
 
             tvGameName.text = currentGame.title
             tvGamePrice.text = currentGame.worth
+            tvGamePrice.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
             Picasso.get().load(currentGame.image).error(R.drawable.error).placeholder(R.drawable.placeholder).into(imageViewGamePhoto)
             tvGameDescription.text = currentGame.description
 
@@ -75,7 +77,6 @@ class GameAdapter (private val onItemClickListener: OnItemClickListener, private
 
             imageViewBookmark.setOnClickListener {
 
-                currentGame.isGameBookmarked = !currentGame.isGameBookmarked
                 setBookmarkState(currentGame,imageViewBookmark)
 
 
@@ -97,7 +98,6 @@ class GameAdapter (private val onItemClickListener: OnItemClickListener, private
             bookmarkImageView.setImageResource(R.drawable.notbookmarkedyet)
         }
     }
-
 
 
     private fun animateBookMarkImageView(game: GameGiveAwayResponseItem,bookmarkImageView:ImageView){

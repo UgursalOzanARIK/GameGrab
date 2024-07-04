@@ -53,7 +53,6 @@ class FirebaseViewModel @Inject constructor(private val firebaseRepository: Fire
         }
     }
 
-
     fun signupUser(email:String,password:String,displayName:String)=viewModelScope.launch {
 
 

@@ -34,7 +34,7 @@
             android:id="@+id/cardView3"
             android:layout_width="150dp"
             android:layout_height="150dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="128dp"
             app:cardCornerRadius="100dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -53,10 +53,11 @@
             android:id="@+id/imageViewChangeProfilePicture"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginTop="264dp"
+            android:layout_marginTop="128dp"
             android:src="@drawable/baseline_camera_alt_24"
+            app:layout_constraintBottom_toBottomOf="@+id/cardView3"
             app:layout_constraintStart_toEndOf="@+id/cardView3"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/cardView3" />
 
         <TextView
             android:id="@+id/tvUserDisplayName"
@@ -75,54 +76,47 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
-        <ImageView
-            android:id="@+id/imageViewNavigateBack"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="32dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:src="@drawable/baseline_arrow_back_24"/>
-
         <TextView
             android:id="@+id/textView8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
             android:fontFamily="@font/concert_one"
             android:text="Profile"
             android:textColor="@color/white"
             android:textSize="30sp"
             android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageViewNavigateBack" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/textView9"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="184dp"
             android:layout_marginTop="64dp"
             android:fontFamily="@font/actor"
             android:text="E Mail"
-            android:textAlignment="viewStart"
+            android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cardView3" />
 
         <TextView
             android:id="@+id/textView10"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="172dp"
             android:layout_marginTop="16dp"
             android:fontFamily="@font/actor"
             android:text="Nickname"
+            android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/view" />
 
@@ -131,12 +125,14 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="64dp"
+            android:layout_marginTop="80dp"
             android:layout_marginEnd="16dp"
+            android:layout_marginBottom="64dp"
             android:backgroundTint="@color/darkBlue"
             android:text="Log Out"
             android:textColor="@color/white"
             app:cornerRadius="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvUserDisplayName" />
@@ -148,7 +144,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:alpha="0.5"
+            android:alpha="0.2"
             android:background="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
